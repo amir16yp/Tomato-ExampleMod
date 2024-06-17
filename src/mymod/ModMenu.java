@@ -3,15 +3,18 @@ package mymod;
 import game.Game;
 import game.Screen;
 import game.entities.player.PlayerEntity;
+import game.items.Gun;
 import game.ui.Button;
 import game.ui.Menu;
 
 import java.util.List;
 
-public class FartMenu extends Menu {
-    public FartMenu() {
+public class ModMenu extends Menu {
+    public ModMenu() {
         super(0, 0, Game.WIDTH, Game.HEIGHT);
     }
+
+
 
     @Override
     public void initializeButtons() {
@@ -33,9 +36,14 @@ public class FartMenu extends Menu {
                 PlayerEntity.inventory.clearSlots();
             }
         });
+        Button giveGunBtn = new Button(startX, startY + spacing * 2, this.buttonWidth, this.buttonHeight, "give gun");
+        giveGunBtn.setOnSelectedAction(() -> {
+            PlayerEntity.inventory.addItem(new Gun());
+        });
+
 
         buttonList.add(backButton);
         buttonList.add(clearInventoryBtn);
-
+        buttonList.add(giveGunBtn);
     }
 }

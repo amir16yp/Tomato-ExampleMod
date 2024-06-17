@@ -1,47 +1,54 @@
 package mymod;
 
 import game.*;
-import game.entities.NPC;
 import game.entities.enemy.Zombie;
 import game.input.KeybindRegistry;
-import game.items.Gun;
 import game.ui.Button;
 import game.ui.Menu;
+import game.ui.UIElement;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
+import java.rmi.registry.Registry;
+import java.security.Key;
 
 public class TestMod implements Mod
 {
 
     private final Logger logger = new Logger(this.getClass().getName());
     public static ResourceLoader resourceLoader = new ModResourceLoader();
-    private final FartMenu fartMenu = new FartMenu();
-    private final Menu[] menus = new Menu[] {fartMenu};
+    private final ModMenu modMenu = new ModMenu();
+    private final Menu[] menus = new Menu[] {modMenu};
 
     @Override
     public void init() {
         Game.instance.setTitle("Tomato - modded");
         logger.Log("Init mod!");
-
+        Game.instance.setResolution(640, 480);
         Menu mainMenu = Screen.menus[0];
-
         Button lastButton = mainMenu.getButtons().getLast();
         int newButtonY = lastButton.getY() + 60;
         int newButtonX = lastButton.getX();
 
-        Button fartMenuButton=  new Button(newButtonX, newButtonY, lastButton.getWidth(), lastButton.getHeight(), "FART MENU");
+        Button fartMenuButton=  new Button(newButtonX, newButtonY, lastButton.getWidth(), lastButton.getHeight(), "Modded Menu");
         fartMenuButton.setOnSelectedAction(() -> {
-            Screen.setCurrentMenu(fartMenu);
+            Screen.setCurrentMenu(modMenu);
         });
 
         Screen.menus[0].getButtons().add(fartMenuButton);
 
-        KeybindRegistry.registry.registerKeyPressedAction(KeyEvent.VK_Z, () -> {
+        KeybindRegistry.registry.registerKeyPressedAction(KeyEvent.VK_DELETE, () -> {
             Scene scene = Screen.getCurrentScene();
-            int[] coords = scene.getRandomCoordsInMap();
-            scene.spawnEntity(new Zombie(), coords[0], coords[1]);
+            Tile randomTile = scene.getRandomTileInMap();
+            scene.setTile(randomTile, 4, -1);
         });
+
+        for (Scene scene : Screen.scenes)
+        {
+            scene.lighting.setDarkness(0.65f);
+            scene.lighting.addLightSource(320, 320, 32 * 10);
+            scene.lighting.setPlayerSource(32 * 6, true);
+        }
 
     }
 
