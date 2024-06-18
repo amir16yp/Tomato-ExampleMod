@@ -40,7 +40,7 @@ public class ModMenu extends Menu {
         giveGunBtn.setOnSelectedAction(() -> {
             PlayerEntity.inventory.addItem(new Gun());
         });
-
+        PlayerEntity.inventory.addItem(new Flashlight(1));
 
         buttonList.add(backButton);
         buttonList.add(clearInventoryBtn);

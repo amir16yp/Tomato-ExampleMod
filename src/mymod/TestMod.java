@@ -24,7 +24,6 @@ public class TestMod implements Mod
     public void init() {
         Game.instance.setTitle("Tomato - modded");
         logger.Log("Init mod!");
-        Game.instance.setResolution(640, 480);
         Menu mainMenu = Screen.menus[0];
         Button lastButton = mainMenu.getButtons().getLast();
         int newButtonY = lastButton.getY() + 60;
@@ -47,14 +46,14 @@ public class TestMod implements Mod
         {
             scene.lighting.setDarkness(0.65f);
             scene.lighting.addLightSource(320, 320, 32 * 10);
-            scene.lighting.setPlayerSource(32 * 6, true);
+            scene.lighting.setPlayerSource(32 * 6, false);
         }
 
     }
 
     @Override
     public void draw(Graphics graphics) {
-        graphics.drawString("modded", 0, 500);
+        graphics.drawString("modded", 0, Game.INTERNAL_HEIGHT - 50);
     }
 
     @Override
