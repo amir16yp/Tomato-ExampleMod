@@ -7,15 +7,16 @@ import game.items.PickupItem;
 
 public class Flashlight extends PickupItem {
     private long startTimeMillis; // Start time in milliseconds
+    private static final Sprite sprite = new Sprite("/mymod/fart.png", 16, 16, 1000, TestMod.resourceLoader);
     public Flashlight(int durationSeconds) {
-        super(new Sprite("/mymod/fart.png", 16, 16, 1000, TestMod.resourceLoader), 4, durationSeconds * 1000);
+        super(sprite, 4, durationSeconds * 1000);
     }
 
     @Override
     public void use() {
         super.use();
         this.startTimeMillis = System.currentTimeMillis();
-        Screen.getCurrentScene().lighting.setPlayerSource(32 * 7, true);
+        Screen.getCurrentScene().lighting.setPlayerSource(32 * 7, true, 1.0f);
     }
 
     @Override
@@ -24,14 +25,13 @@ public class Flashlight extends PickupItem {
         long elapsedTimeMillis = System.currentTimeMillis() - startTimeMillis;
         float remainingTime = (this.cooldownTime - elapsedTimeMillis);
         if (remainingTime <= 0) {
-            Screen.getCurrentScene().lighting.setPlayerSource(32 * 10, false);
+            Screen.getCurrentScene().lighting.setPlayerSource(32 * 10, false, 1.0f);
         }
     }
 
     @Override
     public void onRunOut() {
         super.onRunOut();
-        Screen.getCurrentScene().lighting.setDarkness(0.9f);
         PlayerEntity.inventory.removeItem(this);
     }
 }
