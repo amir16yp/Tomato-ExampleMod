@@ -1,6 +1,6 @@
 package mymod;
 
-import game.ResourceLoader;
+import tomato.ResourceLoader;
 
 import javax.imageio.ImageIO;
 import javax.sound.sampled.AudioInputStream;
